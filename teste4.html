@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prof. Assistente - planejamento</title>
+    <style>
+        body {
+            background-image: url('plandeaula.png');
+            background-size: cover; /* Define a imagem para cobrir toda a tela sem distorção */
+            text-align: center;
+            color: white;
+        }
+
+        .stylearquivos {
+            text-align: center;
+            color: black;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        .day {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            background-color: #2A1E50; /* Cor de fundo roxa */
+            border-radius: 10px;
+        }
+
+        .day-header {
+            color: #fff; /* Cor do texto branco */
+            font-weight: bold;
+            font-family: 'Poppins-1.zip', sans-serif; /* Defina o nome da fonte personalizada ou uma fonte instalada no seu computador */
+            cursor: pointer; /* Adicionado para indicar que o cabeçalho é clicável */
+        }
+
+        .task-input {
+            position: relative;
+        }
+
+        .add-button {
+            background-color: white;
+            color: #2A1E50; /* Cor do texto */
+            border: 2px solid white; /* Adiciona uma borda branca */
+            border-radius: 50%; /* Deixa o botão em forma de círculo */
+            width: 30px; /* Largura do círculo */
+            height: 30px; /* Altura do círculo */
+            cursor: pointer;
+            font-size: 20px; /* Tamanho do texto dentro do círculo */
+            position: absolute;
+            right: 5px; /* Distância da borda direita */
+            bottom: 5px; /* Distância da borda inferior */
+        }
+
+        .day-details.active {
+            display: block; /* Exibe quando ativada */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="stylearquivos">
+        <h1>Planejamento de Aula</h1>
+        <label for="instrução">Clique para adicionar tarefa</label>
+    </div>
+
+    <div class="calendar">
+        <div class="day">
+            <div class="day-header">Segunda-feira</div>
+            <div class="task-input">
+                <input type="text" id="segunda" placeholder="Adicionar tarefa">
+                <button class="add-button" onclick="adicionarTarefa('segunda')">+</button>
+            </div>
+            <ul id="tarefas-segunda"></ul>
+        </div>
+        
+        <div class="day">
+            <div class="day-header">Terca-feira</div>
+            <div class="task-input">
+                <input type="text" id="terca" placeholder="Adicionar tarefa">
+                <button class="add-button" onclick="adicionarTarefa('terca')">+</button>
+            </div>
+            <ul id="tarefas-terca"></ul>
+        </div>
+
+        <div class = "day">
+            <div class="day-header">Quarta-feira</div>
+            <div class="task-input">
+                <input type="text" id="quarta" placeholder="Adicionar tarefa">
+                <button class="add-button" onclick="adicionarTarefa('quarta')">+</button>
+            </div>
+            <ul id="tarefas-quarta"></ul>
+        </div>
+        
+        <div class="day">
+            <div class="day-header">Quinta-feira</div>
+            <div class = "task-input">
+                <input type="text" id="quinta" placeholder="Adicionar tarefa">
+                <button class="add-button" onclick="adicionarTarefa('quinta')">+</button>
+            </div>
+            <ul id="tarefas-quinta"></ul>
+        </div>
+        
+        <div class="day">
+            <div class="day-header">Sexta-feira</div>
+            <div class="task-input">
+                <input type="text" id="sexta" placeholder="Adicionar tarefa">
+                <button class="add-button" onclick="adicionarTarefa('sexta')">+</button>
+            </div>
+            <ul id="tarefas-sexta"></ul>
+        </div>
+    </div>
+
+    <script>
+        function adicionarTarefa(dia) {
+            const input = document.getElementById(dia);
+            const ul = document.getElementById("tarefas-" + dia);
+            const tarefa = input.value;
+
+            if (tarefa) {
+                const li = document.createElement("li");
+                li.textContent = tarefa;
+                ul.appendChild(li);
+                input.value = "";
+            }
+        }
+    </script>
+</body>
+</html>

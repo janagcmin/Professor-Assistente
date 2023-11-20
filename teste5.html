@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prof. Assistente - arquivos</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Arquivos</h1>
+        <p><button id="styledisciplina" onclick="mostrarOpcoes3()">Matemática</button></p>
+        <div id="opcoes1" style="display:none;">
+            <p><button id="adicionar">Adicionar arquivo</button></p>
+            <input type="file" id="fileInput" accept=".pdf" style="display: none">
+            <div id="pdfViewersContainer"></div>
+        </div>
+        <p><button id="artes" onclick="mostrarOpcoes4()">Artes</button></p>
+        <div id="opcoes2" style="display:none;">
+            <p><button id="adicionar2">Adicionar arquivo</button></p>
+            <input type="file" id="fileInput2" accept=".pdf" style="display: none">
+            <div id="pdfViewersContainer2"></div>
+        </div>
+    </div>
+    <script>
+        function mostrarOpcoes3() {
+            const opcoes1 = document.getElementById('opcoes1');
+            if (opcoes1.style.display === 'none') {
+                opcoes1.style.display = 'block';
+            } else {
+                opcoes1.style.display = 'none';
+            }
+        }
+
+        function mostrarOpcoes4() {
+            const opcoes2 = document.getElementById('opcoes2');
+            if (opcoes2.style.display === 'none') {
+                opcoes2.style.display = 'block';
+            } else {
+                opcoes2.style.display = 'none';
+            }
+        }
+
+        //atribuir uma variável pros elementos
+        const adicionar = document.getElementById('adicionar');
+        const adicionar2 = document.getElementById('adicionar2');
+        const fileInput = document.getElementById('fileInput');
+        const fileInput2 = document.getElementById('fileInput2');
+        const pdfViewersContainer = document.getElementById('pdfViewersContainer');
+        const pdfViewersContainer2 = document.getElementById('pdfViewersContainer2');
+
+
+        adicionar.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        adicionar2.addEventListener('click', () => {
+            fileInput2.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const selectedFile = event.target.files[0];
+            if (selectedFile && selectedFile.type === 'application/pdf') {
+                const newPdfViewer = document.createElement('iframe');
+                newPdfViewer.setAttribute('width', '19%');
+                newPdfViewer.setAttribute('height', '250');
+                newPdfViewer.setAttribute('src', URL.createObjectURL(selectedFile));
+
+                // Cria um contêiner para o visualizador de PDF e o rótulo
+                const pdfContainer = document.createElement('div');
+                pdfContainer.classList.add('pdf-container');
+
+                // Adiciona o botão "Tela inteira" para abrir o PDF em uma nova aba ocupando a tela inteira
+                const fullScreenLabel = document.createElement('label');
+                fullScreenLabel.innerHTML = 'Tela inteira';
+                fullScreenLabel.classList.add('full-screen-label');
+                fullScreenLabel.addEventListener('click', () => {
+                    const newTab = window.open();
+                    newTab.document.write(`<iframe src="${URL.createObjectURL(selectedFile)}" style="width: 100%; height: 100vh; border: none;"></iframe>`);
+                });
+
+                // Adiciona o rótulo e o visualizador de PDF ao contêiner
+                pdfContainer.appendChild(fullScreenLabel);
+                pdfContainer.appendChild(newPdfViewer);
+
+                // Adiciona o contêiner ao contêiner principal
+                pdfViewersContainer.appendChild(pdfContainer);
+            }
+        });
+
+        fileInput2.addEventListener('change', (event) => {
+            const selectedFile = event.target.files[0];
+            if (selectedFile && selectedFile.type === 'application/pdf') {
+                const newPdfViewer = document.createElement('iframe');
+                newPdfViewer.setAttribute('width', '19%');
+                newPdfViewer.setAttribute('height', '250');
+                newPdfViewer.setAttribute('src', URL.createObjectURL(selectedFile));
+
+                // Cria um contêiner para o visualizador de PDF e o rótulo
+                const pdfContainer = document.createElement('div');
+                pdfContainer.classList.add('pdf-container');
+
+                // Adiciona o botão "Tela inteira" para abrir o PDF em uma nova aba ocupando a tela inteira
+                const fullScreenLabel = document.createElement('label');
+                fullScreenLabel.innerHTML = 'Tela inteira';
+                fullScreenLabel.classList.add('full-screen-label');
+                fullScreenLabel.addEventListener('click', () => {
+                    const newTab = window.open();
+                    newTab.document.write(`<iframe src="${URL.createObjectURL(selectedFile)}" style="width: 100%; height: 100vh; border: none;"></iframe>`);
+                });
+
+                // Adiciona o rótulo e o visualizador de PDF ao contêiner
+                pdfContainer.appendChild(fullScreenLabel);
+                pdfContainer.appendChild(newPdfViewer);
+
+                // Adiciona o contêiner ao contêiner principal
+                pdfViewersContainer2.appendChild(pdfContainer);
+            }
+        });
+
+    </script>
+<script src="https://ucsvirtual.ucs.br/globalAva/midia/js/api.js?v=1" defer></script></body>
+</html>

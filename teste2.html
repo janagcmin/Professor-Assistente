@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Professor Assistente - home</title>
+    <style>
+
+        .stylelogin { 
+            display: flex; /*Define um container flexicível para os elementos*/
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('início3.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #introdução {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translate(20px, 20px);
+        }
+
+        .botões {
+            background-color: #2A1E50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .botões2 {
+            background-color: #2A1E50;
+            width: 4%;
+            color: white;
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .botões3 {
+            background-color: #2A1E50;
+            width: 9%;
+            color: white;
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        #registro_de_presença {
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: translate(-400px, 25px);
+        }
+
+        /* Estilos para alinhar os botões de opção à direita do nome */
+        .registro-label {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .registro-label input[type="radio"] {
+            margin-right: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="stylelogin">
+        <form id="login">
+            <h1>Login de Usuário</h1>
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" name="usuario" required><br><br>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required><br><br>
+            <button type="submit">Login</button>
+            <p>Não possui uma conta? <a href="#criar-conta">Crie uma aqui</a></p>
+        </form>
+
+        <div id="Nova Conta" style="display:none;">
+            <h2>Nova Conta</h2>
+            <form id="nova conta">
+                <label for="novo-usuario">Novo Usuário:</label>
+                <input type="text" id="novo-usuario" name="novo-usuario" required><br><br>
+                <label for="nova-senha">Nova Senha:</label>
+                <input type="password" id="nova-senha" name="nova-senha" required><br><br>
+                <button type="submit">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="introdução" style="display:none;">
+        <h1>Professor Assistente</h1>
+        <button class="botões" onclick="mostrarOpcoes()">Ano</button>
+        <div id="opcoesAno" style="display:none;">
+            <div class="botões2" onclick="verificar(this)">1º</div>
+            <div class="botões2" onclick="verificar(this)">2º</div>
+            <div class="botões2" onclick="verificar(this)">3º</div>
+        </div>
+        <p></p>
+        <button class="botões" onclick="mostrarOpcoes2()">Turma</button>
+        <div id="opcoesTurma" style="display:none;">
+            <div class="botões3" onclick="verificar(this)">Alfa</div>
+            <div class="botões3" onclick="verificar(this)">Beta</div>
+            <div class="botões3" onclick="verificar(this)">Zeta</div>
+        </div>
+        <p><button class="botões" type="presenças" onclick="verificar(this)">Presenças</button></p>
+        <p><button class="botões" type="planejamento" onclick="verificar(this)">Planejamento de Aula</button></p>
+        <p><button class="botões" type="arquivos" onclick="verificar(this)">Arquivos</button></p>
+    </div>        
+
+    <div id="registro_de_presença" style="display:none;">
+        <h2>Registro de Presença</h2>
+            <div id="adicionar-aluno">
+                <label for="novo-aluno">Novo Aluno:</label>
+                <input type="text" id="novo-aluno" name="novo-aluno">
+                <button type="button" onclick="adicionarAluno()">Adicionar Aluno</button>
+            </div>
+            <div id="alunos-lista"></div>
+    </div>
+    
+
+    <script>
+        
+        let alunos = []; // Array para armazenar os nomes dos alunos
+
+        function adicionarAluno() {
+            const novoAluno = document.getElementById("novo-aluno").value.trim();
+            if (novoAluno !== "") {
+                alunos.push(novoAluno); // Adicionar o nome do aluno ao array
+                alunos.sort(); // Ordenar os nomes em ordem alfabética
+
+                const listaAlunos = document.getElementById("alunos-lista");
+                listaAlunos.innerHTML = ""; // Limpar a lista de alunos antes de recriá-la
+
+                alunos.forEach(function (aluno) {
+                    const novoDiv = document.createElement("div");
+                    novoDiv.innerHTML = `
+                        <label for="${aluno}">${aluno}:</label>
+                        <input type="radio" id="${aluno}-presente" name="${aluno}" value="presente">
+                        <label for="${aluno}-presente">Presente</label>
+                        <input type="radio" id="${aluno}-ausente" name="${aluno}" value="ausente">
+                        <label for="${aluno}-ausente">Ausente</label>
+                    `;
+                    listaAlunos.appendChild(novoDiv);
+                });
+
+                document.getElementById("novo-aluno").value = ""; // Limpar o campo de texto após adicionar o aluno
+            } else {
+                alert("Insira um nome de aluno válido.");
+            }
+        }
+
+
+        function abrirNovaAba(url) {
+            var win = window.open(url, '_blank');
+            win.focus();
+        }
+
+        let ano = false;
+        let turma = false;
+        let presenças = false;
+
+        function verificar(btn) {
+            if (btn.innerText === '1º' || btn.innerText === '2º' || btn.innerText === '3º') {
+                ano = true;
+            } else if (btn.innerText === 'Alfa' || btn.innerText === 'Beta' || btn.innerText === 'Zeta') {
+                turma = true;
+            } else if (btn.getAttribute('type') === 'presenças') {
+                presenças = true;
+            }
+
+            if (ano && turma && presenças) {
+                document.getElementById("registro_de_presença").style.display = "block";
+            }
+            if (btn.getAttribute('type') === 'arquivos') {
+                abrirNovaAba('teste5.html');
+            }
+            if (btn.getAttribute('type') === 'planejamento') {
+                abrirNovaAba('teste4.html');
+        }}
+
+        function mostrarOpcoes() {
+            const opcoesAno = document.getElementById('opcoesAno');
+            if (opcoesAno.style.display === 'none') {
+                opcoesAno.style.display = 'block';
+            } else {
+                opcoesAno.style.display = 'none';
+            }
+        }
+        function mostrarOpcoes2() {
+            const opcoesTurma = document.getElementById('opcoesTurma');
+            if (opcoesTurma.style.display === 'none') {
+                opcoesTurma.style.display = 'block';
+            } else {
+                opcoesTurma.style.display = 'none';
+            }
+        }
+
+        document.getElementById("login").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const usuario = document.getElementById("usuario").value;
+            const senha = document.getElementById("senha").value;
+            
+            if (usuario === "" || senha === "") {
+                alert("Por favor, preencha todos os campos.");
+            } else {
+                alert("Login bem-sucedido.");
+                document.getElementById("login").style.display = "none";
+                document.getElementById("introdução").style.display = "block";
+            }
+        });
+
+        document.getElementById("nova conta").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const novoUsuario = document.getElementById("novo-usuario").value;
+            const novaSenha = document.getElementById("nova-senha").value;
+            
+            if (novoUsuario === "" || novaSenha === "") {
+                alert("Por favor, preencha todos os campos.");
+            } else {
+                alert("Nova conta criada com sucesso.");
+                // Limpar os campos de entrada
+                document.getElementById("novo-usuario").value = "";
+                document.getElementById("nova-senha").value = "";
+                // Ocultar o formulário de criação de conta
+                document.getElementById("Nova Conta").style.display = "none";
+            }
+        });
+
+        // Mostrar o formulário de criação de conta quando o link "Crie uma aqui" for clicado
+        document.querySelector("a[href='#criar-conta']").addEventListener("click", function (event) {
+            event.preventDefault();
+            document.getElementById("Nova Conta").style.display = "block";
+        });
+
+    </script>
+</body>
+</html>
